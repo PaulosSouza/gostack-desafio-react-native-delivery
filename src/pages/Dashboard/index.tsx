@@ -55,7 +55,9 @@ const Dashboard: React.FC = () => {
   const navigation = useNavigation();
 
   async function handleNavigate(id: number): Promise<void> {
-    // Navigate do ProductDetails page
+    navigation.navigate('FoodDetails', {
+      id,
+    });
   }
 
   useEffect(() => {
@@ -67,7 +69,12 @@ const Dashboard: React.FC = () => {
         },
       });
 
-      setFoods(response.data);
+      const foodFormatted = response.data.map((food: Food) => ({
+        ...food,
+        formattedPrice: formatValue(food.price),
+      }));
+
+      setFoods(foodFormatted);
     }
 
     loadFoods();
